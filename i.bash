@@ -31,11 +31,18 @@ cmd_insert_multiline() {
 
   local content=$(</dev/stdin)
 
-  mkdir -p -v "$PREFIX/$(dirname "$password_path")"
+  local dirpath="$PREFIX/$(dirname "$password_path")"
+
+  mkdir -p -v "$dirpath"
   set_gpg_recipients "$(dirname "$password_path")"
 
   echo "$content" | $GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" \
     || die "Attachment encryption aborted."
+
+  cd "$dirpath"
+  git add "$passfile"
+  git commit --message "Add $password_path"
+  cd -
 
   return 0
 }
