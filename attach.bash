@@ -32,11 +32,18 @@ cmd_attachment_insert() {
 
   [[ -e $passfile ]] && die "Error: '$password_path' already exists."
 
-  mkdir -p -v "$PREFIX/$(dirname "$password_path")"
+  local dirpath="$PREFIX/$(dirname "$password_path")"
+
+  mkdir -p -v "$dirpath"
   set_gpg_recipients "$(dirname "$password_path")"
 
   base64 $file_path | $GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" \
     || die "Attachment encryption aborted."
+
+  cd "$dirpath"
+  git add "$passfile"
+  git commit --message "Attach $password_path"
+  cd -
 
   return 0
 }
