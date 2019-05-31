@@ -1,7 +1,7 @@
 cmd_s() {
   [[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND match"
 
-  local terms="$(printf '%s.*?' "$@")"
+  local terms="$(printf '%s.*?' "$1")"
 
   local result=$(
     find "$PREFIX" -name '*.gpg' -type f \
@@ -12,9 +12,7 @@ cmd_s() {
     | head -n 1
   )
 
-  if [ -z $result ]; then
-    exit -1
-  fi
+  [ -z $result ] && die "'$1' not found"
 
   local passfile="$PREFIX/$result.gpg"
 
