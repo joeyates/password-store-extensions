@@ -1,5 +1,5 @@
 cmd_f() {
-  [[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND pass-names..."
+  [[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND match"
   local terms="$(printf '%s.*?' "$@")"
   find "$PREFIX" -name '*.gpg' -type f \
     | sed -r "s#^$PREFIX/##" \
