@@ -37,7 +37,7 @@ cmd_attachment_insert() {
   mkdir -p -v "$dirpath"
   set_gpg_recipients "$(dirname "$password_path")"
 
-  base64 $file_path | $GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" \
+  base64 "$file_path" | $GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" \
     || die "Attachment encryption aborted."
 
   cd "$dirpath"
@@ -66,7 +66,7 @@ cmd_attachment_export() {
 
   $GPG -d "${GPG_OPTS[@]}" "$passfile" \
     | base64 -d \
-    > $file_path
+    > "$file_path"
 }
 
 case "$1" in
