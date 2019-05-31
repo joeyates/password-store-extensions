@@ -16,6 +16,7 @@ cmd_s() {
 
   local passfile="$PREFIX/$result.gpg"
 
+  echo "$result:"
   $GPG -d "${GPG_OPTS[@]}" "$passfile"
 }
 
