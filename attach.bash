@@ -69,8 +69,31 @@ cmd_attachment_export() {
     > "$file_path"
 }
 
+# List all files that are Base64 encoded
+# N.B. This is **slow** - it decodes every file
+# Also it gives false positives:
+# 1. empty files
+# 2. simple Base64-encoded strings
+cmd_attachment_list() {
+  local path="$1"
+
+  find "$PREFIX/$path" -name '*.gpg' -type f -print0 \
+    | while IFS= read -r -d '' file; do
+        # GPG decode...
+        # Try to Base64 decode
+        # If that works, it **may** be an attachment
+        $GPG -d "${GPG_OPTS[@]}" "$file" 2>/dev/null \
+          | base64 -d >/dev/null 2>&1 \
+          && echo $file
+      done \
+    | sed -r "s#^$PREFIX/##" \
+    | sed -r "s#\.gpg\$##" \
+    | sort
+}
+
 case "$1" in
   insert|add)     shift; cmd_attachment_insert "$@" ;;
   export)         shift; cmd_attachment_export "$@" ;;
+  list)           shift; cmd_attachment_list "$@" ;;
 esac
 exit 0
