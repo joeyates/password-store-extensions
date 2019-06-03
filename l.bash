@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# pass import - Password Store Extension (https://www.passwordstore.org/)
+# pass l - Password Store Extension (https://www.passwordstore.org/)
+# Similar to pass's `list`, but:
+# * lists entries as a flat list,
+# * has a shorter command.
 # Copyright (C) 2018 Joe Yates.
 #
 #    This program is free software: you can redistribute it and/or modify
