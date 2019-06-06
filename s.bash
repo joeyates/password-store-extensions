@@ -1,7 +1,7 @@
 cmd_s() {
   [[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND match"
 
-  local terms="$(printf '%s.*?' "$1")"
+  local terms="$(printf '%s.*?' "$@")"
 
   local result=$(
     find "$PREFIX" -name '*.gpg' -type f \
