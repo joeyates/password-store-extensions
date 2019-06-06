@@ -1,3 +1,4 @@
+# Decode the first matching password
 cmd_s() {
   [[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND match"
 
