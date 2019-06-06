@@ -1,5 +1,5 @@
 # Decode the first matching password
-cmd_s() {
+cmd_ff() {
   [[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND match"
 
   local terms="$(printf '%s.*?' "$@")"
@@ -21,5 +21,5 @@ cmd_s() {
   $GPG -d "${GPG_OPTS[@]}" "$passfile"
 }
 
-cmd_s "$@"
+cmd_ff "$@"
 exit $?
