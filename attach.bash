@@ -17,9 +17,16 @@
 #
 
 cmd_attachment_insert() {
-  if [[ $# -ne 2 ]]; then
-    die "supply a password path and filename"
-  fi
+  local opts force=0
+  opts="$($GETOPT -o f -l force -n "$PROGRAM" -- "$@")"
+  local err=$?
+  eval set -- "$opts"
+  while true; do case $1 in
+    -f|--force) force=1; shift ;;
+    --) shift; break ;;
+  esac done
+
+  [[ $err -ne 0 || $# -ne 2 ]] && die "Usage: $PROGRAM $COMMAND [--force,-f] pass-name file/path"
 
   local password_path="$1"
   local file_path="$2"
@@ -30,7 +37,7 @@ cmd_attachment_insert() {
 
   local passfile="$PREFIX/$password_path.gpg"
 
-  [[ -e $passfile ]] && die "Error: '$password_path' already exists."
+  [[ $force -eq 0 && -e $passfile ]] && yesno "An entry already exists for $path. Overwrite it?"
 
   local dirpath="$PREFIX/$(dirname "$password_path")"
 
@@ -94,7 +101,7 @@ cmd_attachment_list() {
 cmd_attach_help() {
   cat <<-_EOF
   Usage:
-      $PROGRAM attach insert pass-name file/path
+      $PROGRAM attach insert [--force,-f] pass-name file/path
           Insert a file as a new password.
       $PROGRAM attach export pass-name file/path
           Write out a password attachment as a file.
