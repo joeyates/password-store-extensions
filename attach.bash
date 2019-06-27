@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# pass import - Password Store Extension (https://www.passwordstore.org/)
+# pass attach - Password Store Extension (https://www.passwordstore.org/)
 # Copyright (C) 2018 Joe Yates.
 #
 #    This program is free software: you can redistribute it and/or modify
