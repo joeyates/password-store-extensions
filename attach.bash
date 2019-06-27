@@ -91,9 +91,25 @@ cmd_attachment_list() {
     | sort
 }
 
+cmd_attach_help() {
+  cat <<-_EOF
+  Usage:
+      $PROGRAM attach insert pass-name file/path
+          Insert a file as a new password.
+      $PROGRAM attach export pass-name file/path
+          Write out a password attachment as a file.
+      $PROGRAM attach list [path]
+          List attachments in the password store.
+          N.B. This operation is potentially very slow.
+
+      N.B.: Internally, files are stored Base64-encoded.
+	_EOF
+}
+
 case "$1" in
   insert|add)     shift; cmd_attachment_insert "$@" ;;
   export)         shift; cmd_attachment_export "$@" ;;
   list)           shift; cmd_attachment_list "$@" ;;
+  help)           shift; cmd_attach_help "$@" ;;
 esac
 exit 0
