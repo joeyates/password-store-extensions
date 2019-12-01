@@ -13,7 +13,7 @@ cmd_ff() {
     | head -n 1
   )
 
-  [ -z $result ] && die "'$1' not found"
+  [ -z "$result" ] && die "'$1' not found"
 
   local passfile="$PREFIX/$result.gpg"
 
