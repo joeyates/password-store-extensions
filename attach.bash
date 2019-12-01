@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-cmd_attachment_insert() {
+cmd_attachment_import() {
   local opts force=0
   opts="$($GETOPT -o f -l force -n "$PROGRAM" -- "$@")"
   local err=$?
@@ -101,12 +101,12 @@ cmd_attachment_list() {
 cmd_attach_help() {
   cat <<-_EOF
   Usage:
-      $PROGRAM attach insert [--force,-f] pass-name file/path
-          Insert a file as a new password.
+      $PROGRAM attach import [--force,-f] pass-name file/path
+          Import a file as a new store entry.
       $PROGRAM attach export pass-name file/path
-          Write out a password attachment as a file.
+          Write out an attachment as a file.
       $PROGRAM attach list [path]
-          List attachments in the password store.
+          List attachments in the store.
           N.B. This operation is potentially very slow.
 
       N.B.: Internally, files are stored Base64-encoded.
@@ -114,9 +114,10 @@ cmd_attach_help() {
 }
 
 case "$1" in
-  insert|add)     shift; cmd_attachment_insert "$@" ;;
+  add|import)     shift; cmd_attachment_import "$@" ;;
   export)         shift; cmd_attachment_export "$@" ;;
   list)           shift; cmd_attachment_list "$@" ;;
   help)           shift; cmd_attach_help "$@" ;;
+  *)              shift; cmd_attach_help "$@" ;;
 esac
 exit 0
