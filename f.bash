@@ -1,3 +1,4 @@
+# List matching entries
 cmd_f() {
   [[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND match"
   local terms="$(printf '%s.*?' "$@")"
